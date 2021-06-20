@@ -3,7 +3,7 @@
     :loading="status.loading"
     :error="status.error"
   >
-    <div class="min-h-screen flex flex-col justify-center items-center space-y-12">
+    <div class="h-full bg-primary flex flex-col justify-center items-center space-y-12">
       <div class="flex flex-col items-center space-y-4">
         <img
           :src="logo"
@@ -11,17 +11,20 @@
         >
 
         <div class="heading">
-          shelve my subs
+          shelve my subs!
         </div>
 
         <div>
-          A simple app that help organize your subscriptions and track its expenses.
+          Struggling to keep tab of your subscriptions? Well, fret not. You can now shelve it.
         </div>
       </div>
 
       <div class="flex flex-col items-center space-y-2">
-        <button @click="promptLogin">
-          Create A Shelf / Login
+        <button
+          class="bg-light text-dark"
+          @click="promptLogin"
+        >
+          Sign In
         </button>
       </div>
     </div>

@@ -2,16 +2,18 @@
   <div class="h-full px-4 py-8 flex flex-col items-center shadow-md">
     <img
       :src="logo"
-      class="h-8 w-8"
+      class="h-12 w-12"
     >
 
     <div class="mt-10 space-y-4">
-      <div
-        class="cursor-pointer"
-        @click="logout"
+      <router-link
+        v-for="item in items"
+        :key="item.routeName"
+        :to="{ name: item.routeName }"
+        class="text-dark"
       >
-        My Shelf
-      </div>
+        {{ item.name }}
+      </router-link>
     </div>
 
     <div
@@ -24,17 +26,25 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue';
-  import { logout } from '@/composables/firebase';
-  import logo from '@/assets/logo.png';
+import { defineComponent } from 'vue';
+import { logout } from '@/composables/firebase';
+import logo from '@/assets/logo.png';
 
-  export default defineComponent({
-    name: 'SidePanel',
-    setup() {
-      return {
-        logo,
-        logout,
-      };
-    },
-  });
+export default defineComponent({
+  name: 'SidePanel',
+  setup() {
+    const items = [
+      {
+        name: 'My Shelf',
+        routeName: 'shelf',
+      },
+    ];
+
+    return {
+      logo,
+      items,
+      logout,
+    };
+  },
+});
 </script>

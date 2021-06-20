@@ -28,6 +28,7 @@ module.exports = {
     'comma-dangle': ['error', 'always-multiline'],
     'object-curly-spacing': ['error', 'always'],
     'eol-last': ['error', 'always'],
+    'indent': ['error', 2],
     'semi': 'off',
     '@typescript-eslint/semi': ['error'],
     '@typescript-eslint/member-delimiter-style': [

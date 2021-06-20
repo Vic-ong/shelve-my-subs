@@ -4,22 +4,21 @@
     :error="error"
   >
     <div>
-      <div class="flex justify-between items-center space-x-5">
-        <div class="heading">
+      <TitleContainer>
+        <div>
           My Shelf
         </div>
-
-        <div>
-          <button @click="router.push({ name: 'shelf/new' })">
-            <div class="flex">
-              Add
-              <i class="ml-2 fi-sr-add" />
+        <template #side-button>
+          <button @click="$router.push({ name: 'shelf/subs/new' })">
+            <div class="flex items-center">
+              New
+              <IconAdd class="h-4 w-4 fill-current text-light ml-2" />
             </div>
           </button>
-        </div>
-      </div>
+        </template>
+      </TitleContainer>
 
-      <div class="mt-10">
+      <div>
         <div
           v-if="!subscriptions.data || subscriptions.data.length === 0"
           class="h-72 flex justify-center items-center"
@@ -32,21 +31,21 @@
         </div>
 
         <div v-else>
-          <div class="flex justify-center items-center sm-below:flex-col sm-below:space-y-5 md-above:space-x-10">
-            <div class="text-center">
-              <div class="heading">
-                {{ summary.total.dollar }}{{ summary.total.value }}
+          <div class="flex justify-center items-center text-left sm-below:flex-col sm-below:space-y-5 md-above:space-x-10">
+            <div>
+              <div class="heading font-default">
+                {{ formatMoney(summary.total.value, summary.total.dollar) }}
               </div>
-              <div class="mt-2 text-gray-darken">
+              <div class="mt-2 text-gray-darken text-right">
                 Monthly expense
               </div>
             </div>
 
-            <div class="text-center">
-              <div class="heading">
-                {{ summary.total.dollar }}{{ summary.total.value * 12 }}
+            <div>
+              <div class="heading font-default">
+                {{ formatMoney(summary.total.value * 12, summary.total.dollar) }}
               </div>
-              <div class="mt-2 text-gray-darken">
+              <div class="mt-2 text-gray-darken text-right">
                 Yearly expense
               </div>
             </div>
@@ -66,40 +65,41 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, computed } from 'vue';
-  import { useRouter } from 'vue-router';
-  import { useSubscriptions } from '@/composables/subscriptions';
-  import ShelfView from './ShelfView.vue';
+import { defineComponent, computed } from 'vue';
+import { useSubscriptions } from '@/composables/subscriptions';
+import { formatMoney } from '@/utils';
+import IconAdd from '@/components/Icons/IconAdd.vue';
+import ShelfView from '@/components/ShelfView.vue';
 
-  export default defineComponent({
-    name: 'Shelf',
-    components: {
-      ShelfView,
-    },
-    setup() {
-      const router = useRouter();
-      const { subscriptions, getSubscriptions } = useSubscriptions();
+export default defineComponent({
+  name: 'Shelf',
+  components: {
+    ShelfView,
+    IconAdd,
+  },
+  setup() {
+    const { subscriptions, getSubscriptions } = useSubscriptions();
 
-      getSubscriptions();
+    getSubscriptions();
 
-      const loading = computed(() => subscriptions.loading);
-      const error = computed(() => subscriptions.error);
+    const loading = computed(() => subscriptions.loading);
+    const error = computed(() => subscriptions.error);
 
-      const summary = computed(() => ({
-        total: {
-          currency: 'USD',
-          dollar: '$',
-          value: Math.round(subscriptions.data.reduce((acc, curr) => acc += curr.cost.value, 0) * 100) / 100,
-        },
-      }));
+    const summary = computed(() => ({
+      total: {
+        currency: 'USD',
+        dollar: '$',
+        value: Math.round(subscriptions.data.reduce((acc, curr) => acc += curr.cost.value, 0) * 100) / 100,
+      },
+    }));
 
-      return {
-        loading,
-        error,
-        router,
-        subscriptions,
-        summary,
-      };
-    },
-  });
+    return {
+      loading,
+      error,
+      subscriptions,
+      summary,
+      formatMoney,
+    };
+  },
+});
 </script>

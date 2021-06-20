@@ -1,8 +1,10 @@
 import { App } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
+import { user } from '@/composables/firebase';
 import Home from '@/views/Home.vue';
 import Shelf from '@/views/Shelf.vue';
 import NewItem from '@/views/NewItem.vue';
+import EditItem from '@/views/EditItem.vue';
 
 const routes = [
   {
@@ -14,11 +16,25 @@ const routes = [
     name: 'shelf',
     path: '/shelf',
     component: Shelf,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
-    name: 'shelf/new',
-    path: '/shelf/new',
+    name: 'shelf/subs/new',
+    path: '/shelf/subs/new',
     component: NewItem,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    name: 'shelf/subs/edit/:id',
+    path: '/shelf/subs/edit/:id',
+    component: EditItem,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     name: 'unkown-route',
@@ -37,13 +53,13 @@ export const registerRouter = (app: App): void => {
   
   router.beforeEach((to, from, next) => {
     if (to.matched.some((record) => record.meta.requiresAuth)) {
-      if (localStorage.getItem('access_token') == null) {
-        next({ name: 'auth' });
+      if (!user.value) {
+        next({ name: 'home' });
       } else {
         next();
       }
-    } else if (to.path === '/auth' && !!localStorage.getItem('access_token')) {
-      next({ name: 'home' });
+    } else if (to.path === '/' && !!user.value) {
+      next({ name: 'shelf' });
     } else {
       next();
     }

@@ -95,6 +95,10 @@ export const useSubscriptions = () => {
     });
   };
 
+  const getSubscription = (id: string): Subscription => {
+    return subscriptions.data.find((x) => x.id === id) as Subscription;
+  };
+
   const addSubscription = async (param: NewSubscription) => {
     if (user.value) {
       db.collection('subscriptions').add(param);
@@ -117,6 +121,7 @@ export const useSubscriptions = () => {
 
     // actions
     getSubscriptions,
+    getSubscription,
     addSubscription,
     deleteSubscription,
   };

@@ -13,6 +13,7 @@ module.exports = {
   theme: {
     fontFamily: {
       default: ['Alata', 'Avenir', 'Helvetica', 'Arial', 'sans-serif'],
+      heading: ['Londrina Shadow', 'Bradley Hand', 'Brush Script MT', 'Comic Sans MS', 'cursive'],
     },
     colors: {
       // font color
@@ -21,10 +22,9 @@ module.exports = {
       link: '#2196F3',
       error: '#E74C3C',
       transparent: 'transparent',
-      // primary branding colors
-      primary: '#54A6FF',
+      primary: '#5EBEDF',
       gray: {
-        DEFAULT: '#F5F5F5',
+        DEFAULT: '#E9E9E9',
         darken: '#4D4D4D',
       },
     },

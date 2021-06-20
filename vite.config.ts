@@ -4,19 +4,19 @@ import path from 'path';
 
 export default ({ mode }: UserConfig): UserConfigExport => {
   return defineConfig({
-      plugins: [vue()],
-      define: {
-        // add process env
-        'process.env': {
-          NODE_ENV: process.env.NODE_ENV,
-          ...loadEnv(mode, process.cwd()),
-        },
+    plugins: [vue()],
+    define: {
+      // add process env
+      'process.env': {
+        NODE_ENV: process.env.NODE_ENV,
+        ...loadEnv(mode, process.cwd()),
       },
-      resolve: {
-        // add "@/" path alias
-        alias: {
-          '@': path.resolve(__dirname, '/src'),
-        },
+    },
+    resolve: {
+      // add "@/" path alias
+      alias: {
+        '@': path.resolve(__dirname, '/src'),
       },
+    },
   });
 };
